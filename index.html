@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="tokyonight">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portafolio profesional de Luis Mendoza - Desarrollador de Software y Técnico en Sistemas. Configurado como un entorno Neovim interactivo.">
+    <title>Daniel Mendoza | Neovim IDE Portfolio</title>
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- Blobs de gradiente interactivos en el fondo -->
+    <div class="background-blobs">
+        <div class="blob blob-1" id="blob1"></div>
+        <div class="blob blob-2" id="blob2"></div>
+        <div class="blob blob-3" id="blob3"></div>
+    </div>
+    
+    <!-- Círculo de brillo que sigue al cursor -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Cabecera Móvil (solo visible en pantallas pequeñas) -->
+    <header class="mobile-header">
+        <div class="mobile-logo"><span>&lt;</span>Luis.dev<span>/&gt;</span></div>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir explorador de archivos">
+            <!-- Icono de Hamburguesa / Directorio -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+        </button>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL DEL IDE -->
+    <main>
+        <div class="ide-container">
+            
+            <!-- Área de Trabajo Central -->
+            <div class="ide-main">
+                
+                <!-- Barra Lateral Izquierda: File Explorer (Estilo Neo-tree) -->
+                <aside class="ide-sidebar" id="ideSidebar">
+                    <div class="sidebar-title">
+                        <span>EXPLORER: LUIS.DEV</span>
+                        <!-- Icono refrescar o similar -->
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    </div>
+                    
+                    <div class="sidebar-tree" role="tree">
+                        <!-- Carpeta Raíz -->
+                        <div class="tree-folder">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                            <span>Luis_mendoza/</span>
+                        </div>
+                        
+                        <!-- Lista de Archivos -->
+                        <ul class="tree-file-list" role="group">
+                            <li>
+                                <div class="tree-file active" id="fileHelp" data-buffer="help" role="treeitem" aria-selected="true" tabindex="0">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>ayuda.txt</span>
+                                    <span class="tree-file-ext">[TXT]</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-file" id="fileAbout" data-buffer="about" role="treeitem" aria-selected="false" tabindex="-1">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>sobre_mi.md</span>
+                                    <span class="tree-file-ext">[MD]</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-file" id="fileSkills" data-buffer="skills" role="treeitem" aria-selected="false" tabindex="-1">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>habilidades.json</span>
+                                    <span class="tree-file-ext">[JSON]</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-file" id="fileProjects" data-buffer="projects" role="treeitem" aria-selected="false" tabindex="-1">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>proyectos.lua</span>
+                                    <span class="tree-file-ext">[LUA]</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tree-file" id="fileContact" data-buffer="contact" role="treeitem" aria-selected="false" tabindex="-1">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>contacto.sh</span>
+                                    <span class="tree-file-ext">[SH]</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+                
+                <!-- Panel de Pestañas y Editor -->
+                <div class="ide-workspace">
+                    <!-- Barra de pestañas superiores (Tabline) -->
+                    <div class="ide-tabline" id="ideTabline">
+                        <div class="ide-tab active" data-buffer="help">
+                            <span>ayuda.txt</span>
+                            <span class="tab-close" data-close="help">&times;</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Ventana de Editor -->
+                    <div class="ide-editor" id="ideEditor">
+                        <!-- Gutter de números de línea (se llena con JS) -->
+                        <div class="editor-gutter" id="editorGutter">
+                            <!-- Números de línea inyectados por JS -->
+                        </div>
+                        
+                        <!-- Contenedor de Contenido (Buffers) -->
+                        <div class="editor-buffer-container" id="bufferContainer">
+                            
+                            <!-- 0. BUFFER: AYUDA (ayuda.txt) -->
+                            <article class="editor-buffer active" id="buffer-help">
+                                <h1 class="md-title">ayuda.txt</h1>
+                                <div class="help-view code-block">
+                                    <pre class="help-pre">
+*ayuda.txt*   Para Vim versión 9.0.   Último cambio: 2026 May 25
+
+INSTRUCCIONES DEL PORTAFOLIO INTERACTIVO (NEOVIM)             *ayuda-portafolio*
+
+Este portafolio emula un entorno de Neovim funcional. Puedes navegar por los
+diferentes archivos del portafolio utilizando comandos de teclado o haciendo
+clic en ellos.
+
+==============================================================================
+1. COMANDOS BÁSICOS                                           *ayuda-comandos*
+
+Para ingresar un comando, presiona la tecla <span class="code-keyword">:</span> (dos puntos). Se enfocará la
+línea de comandos en la parte inferior de la pantalla. Escribe el comando y
+presiona <span class="code-keyword">Enter</span>.
+
+Los comandos disponibles son:
+
+   <span class="code-string">:help</span> o <span class="code-string">:h</span>           Muestra esta ayuda.
+   <span class="code-string">:open &lt;archivo&gt;</span>      Abre un archivo. Ejemplos:
+                          <span class="code-comment">:open sobre_mi</span>
+                          <span class="code-comment">:open habilidades</span>
+                          <span class="code-comment">:open proyectos</span>
+                          <span class="code-comment">:open contacto</span>
+                        (También puedes usar <span class="code-comment">:o</span> o <span class="code-comment">:e</span> en lugar de <span class="code-comment">:open</span>).
+   <span class="code-string">:theme &lt;tema&gt;</span>        Cambia el tema de color. Temas disponibles:
+                          <span class="code-comment">tokyonight, catppuccin, gruvbox, light</span>
+                          Ejemplo: <span class="code-comment">:theme catppuccin</span>
+                        (También puedes usar <span class="code-comment">:t</span> en lugar de <span class="code-comment">:theme</span>).
+   <span class="code-string">:Explorer</span>            Muestra/Oculta la barra lateral (explorador de archivos).
+                        (También puedes usar <span class="code-comment">:Ex</span> o <span class="code-comment">:NeoTree</span>).
+   <span class="code-string">:w</span>                   Simula el guardado del archivo actual.
+   <span class="code-string">:q</span>                   Cierra los modales activos (detalles de proyectos) o el
+                        explorador de archivos.
+
+==============================================================================
+2. NAVEGACIÓN Y TECLAS DE ACCESO RÁPIDO                      *ayuda-shortcuts*
+
+Puedes usar las siguientes combinaciones de teclas para una experiencia más real:
+
+   <span class="code-keyword">:</span>                    Abre la línea de comandos.
+   <span class="code-keyword">Esc</span>                  Sale del modo comando o cierra ventanas flotantes/modales.
+   <span class="code-keyword">Ctrl + n</span>             Muestra/Oculta el explorador de archivos.
+
+==============================================================================
+Disfruta explorando el portafolio.
+                                    </pre>
+                                </div>
+                            </article>
+                            
+                            <!-- 1. BUFFER: SOBRE MÍ (sobre_mi.md) -->
+                            <article class="editor-buffer" id="buffer-about">
+                                <h1 class="md-title">Sobre Mí</h1>
+                                
+                                <div class="about-md">
+                                    <p class="code-comment">-- TIP: Puedes controlar este portafolio con comandos. Haz clic abajo o presiona ':' y escribe :help</p>
+                                    <div style="font-family: 'Fira Code', monospace; font-size: 1.15rem; margin-bottom: 20px;">
+                                        <span class="code-keyword">local</span> current_role = <span class="code-string">"</span><span id="typewriterText" class="code-string"></span><span class="code-string">"</span>
+                                    </div>
+                                    <p>
+                                        Hola, soy Luis. Me fascina resolver problemas lógicos, configurar sistemas optimizados y escribir código estructurado. Como Técnico en Sistemas y Desarrollador de Software, tengo experiencia configurando servidores Linux, dockerizando servicios y automatizando flujos de trabajo cotidianos.
+                                    </p>
+                                    <p>
+                                        Mi entorno de desarrollo predilecto es Neovim bajo Debian. Disfruto construyendo scripts en Python y Bash para simplificar tareas y acelerar el desarrollo. Escribir código limpio, mantenible y legible es mi máxima prioridad en cada proyecto.
+                                    </p>
+                                </div>
+                                
+                                <h2 class="md-subtitle">Estadísticas de Perfil</h2>
+                                    
+                                    <div class="stats-grid">
+                                        <div class="stat-card">
+                                            <div class="stat-num">12+</div>
+                                            <div class="stat-label">Proyectos</div>
+                                            <div class="stat-comment">¡Y contando!</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-num">100K+</div>
+                                            <div class="stat-label">Líneas de Código</div>
+                                            <div class="stat-comment">La mitad son logs, shh</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-num">800+</div>
+                                            <div class="stat-label">Tazas de Café</div>
+                                            <div class="stat-comment">Combustible de scripts</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-num">99%</div>
+                                            <div class="stat-label">Bugs Resueltos</div>
+                                            <div class="stat-comment">El otro 1% es misterio</div>
+                                        </div>
+                                    </div>
+                            </article>
+                            
+                            <!-- 2. BUFFER: HABILIDADES (habilidades.json) -->
+                            <article class="editor-buffer" id="buffer-skills">
+                                <h1 class="md-title">Habilidades Técnicas</h1>
+                                
+                                <div class="skills-json-view code-block">
+                                    <span class="code-comment">// Mi caja de herramientas formateada en JSON</span><br>
+                                    <span>{</span><br>
+                                    
+                                    <div class="json-indent">
+                                        <div class="skill-category-wrapper">
+                                            <span class="code-keyword">"lenguajes"</span>: <span>[</span>
+                                            <div class="skill-badge-group">
+                                                <span class="skill-badge">Java</span>
+                                                <span class="skill-badge">Python</span>
+                                                <span class="skill-badge">JavaScript</span>
+                                                <span class="skill-badge">TypeScript</span>
+                                                <span class="skill-badge">SQL</span>
+                                                <span class="skill-badge">HTML/CSS</span>
+                                            </div>
+                                            <span>],</span>
+                                        </div>
+                                        
+                                        <div class="skill-category-wrapper">
+                                            <span class="code-keyword">"frameworks_y_librerias"</span>: <span>[</span>
+                                            <div class="skill-badge-group">
+                                                <span class="skill-badge">Flutter</span>
+                                                <span class="skill-badge">React.js</span>
+                                                <span class="skill-badge">Node.js</span>
+                                                <span class="skill-badge">Express.js</span>
+                                            </div>
+                                            <span>],</span>
+                                        </div>
+                                        
+                                        <div class="skill-category-wrapper">
+                                            <span class="code-keyword">"herramientas_y_sistemas"</span>: <span>[</span>
+                                            <div class="skill-badge-group">
+                                                <span class="skill-badge">Git / GitHub</span>
+                                                <span class="skill-badge">Docker</span>
+                                                <span class="skill-badge">Linux (Debian)</span>
+                                                <span class="skill-badge">Neovim IDE</span>
+                                                <span class="skill-badge">Bash Scripting</span>
+                                                <span class="skill-badge">VS Code</span>
+                                            </div>
+                                            <span>]</span>
+                                        </div>
+                                    </div>
+                                    <span>}</span>
+                                </div>
+                            </article>
+                            
+                            <!-- 3. BUFFER: PROYECTOS (proyectos.lua) -->
+                            <article class="editor-buffer" id="buffer-projects">
+                                <h1 class="md-title">Proyectos Destacados</h1>
+                                
+                                <!-- Filtros de Proyectos -->
+                                <div class="project-filters">
+                                    <button class="filter-btn active" data-filter="all">Todos</button>
+                                    <button class="filter-btn" data-filter="python">Python</button>
+                                    <button class="filter-btn" data-filter="web">Desarrollo Web</button>
+                                    <button class="filter-btn" data-filter="tools">Herramientas</button>
+                                </div>
+                                
+                                <!-- Grilla de Tarjetas -->
+                                <div class="projects-grid" id="projectsGrid">
+                                    <!-- Cargados dinámicamente con JS -->
+                                </div>
+                            </article>
+                            
+                            <!-- 4. BUFFER: CONTACTO (contacto.sh) -->
+                            <article class="editor-buffer" id="buffer-contact">
+                                <h1 class="md-title">Contacto</h1>
+                                
+                                <div class="contact-container">
+                                    <div class="contact-info">
+                                        <h2 class="md-subtitle" style="margin-top: 0;">¿Tienes alguna propuesta?</h2>
+                                        <p class="contact-info-desc">
+                                            Estoy disponible para colaborar en proyectos interesantes, hablar de automatización de servidores, o conversar sobre Neovim.
+                                        </p>
+                                        
+                                        <div class="contact-methods">
+                                            <!-- Email -->
+                                            <div class="contact-method-card" id="emailCard" title="Haz clic para copiar">
+                                                <div class="contact-method-icon">
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+                                                </div>
+                                                <div class="contact-method-details">
+                                                    <h4>Email</h4>
+                                                    <p id="contactEmail">contacto@lumendozu.dev</p>
+                                                    <span style="font-size: 0.7rem; color: var(--accent); display: block;" id="copyMessage">Haz clic para copiar</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Ubicación -->
+                                            <div class="contact-method-card" style="cursor: default;">
+                                                <div class="contact-method-icon">
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                                </div>
+                                                <div class="contact-method-details">
+                                                    <h4>Ubicación</h4>
+                                                    <p>Disponible para trabajo remoto</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Redes Sociales -->
+                                        <div class="contact-socials">
+                                            <a href="https://github.com/lumendozu" target="_blank" class="social-circle-btn" aria-label="GitHub">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                                            </a>
+                                            <a href="#" target="_blank" class="social-circle-btn" aria-label="LinkedIn">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- Barra de Estado Inferior (Lualine Style) -->
+                    <div class="ide-statusline" id="ideStatusline">
+                        <div class="status-left">
+                            <span class="status-section status-mode mode-normal" id="statusMode">NORMAL</span>
+                            <span class="status-section status-file" id="statusFile">sobre_mi.md</span>
+                            <span class="status-section status-git">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; display: inline-block; vertical-align: middle;"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+                                main
+                            </span>
+                        </div>
+                        <div class="status-right">
+                            <span class="status-section status-encoding">utf-8</span>
+                            <span class="status-section status-filetype" id="statusFiletype">markdown</span>
+                            <span class="status-section status-position" id="statusPosition">1:1</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Línea de Comandos de Vim -->
+                    <div class="ide-commandline">
+                        <span class="cmd-prefix">:</span>
+                        <input class="cmd-input" id="cmdInput" type="text" placeholder="" autocomplete="off" spellcheck="false">
+                        <div class="cmd-cursor-block" id="cmdCursor"></div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Detalle de Proyectos -->
+    <div class="modal-overlay" id="projectModal" role="dialog" aria-modal="true" aria-label="Detalles del proyecto">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modalClose" aria-label="Cerrar modal">&times;</button>
+            <div class="modal-hero" id="modalHero">
+                <!-- Inyectado dinámicamente -->
+            </div>
+            <div class="modal-body">
+                <h3 class="modal-title" id="modalTitle">Título del Proyecto</h3>
+                <div class="modal-tags" id="modalTags">
+                    <!-- Etiquetas dinámicas -->
+                </div>
+                <p class="modal-description" id="modalDescription">Descripción extendida.</p>
+                
+                <h4 class="modal-section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    Características del proyecto:
+                </h4>
+                <ul class="modal-list" id="modalFeatures">
+                    <!-- Características del proyecto -->
+                </ul>
+
+                <h4 class="modal-section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                    Tecnologías utilizadas:
+                </h4>
+                <div class="modal-tags" id="modalTech" style="margin-bottom: 20px;">
+                    <!-- Tecnologías -->
+                </div>
+
+                <div class="modal-actions" id="modalActions">
+                    <!-- Botones de Enlace -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Splash Screen Dashboard -->
+    <div class="splash-overlay" id="splashOverlay">
+        <div class="splash-content">
+            <pre class="splash-ascii">
+
+ 
+    ╔═╗┌─┐┌─┐┌─┐┌─┐┌─┐  ┌┬┐┌─┐  ┬  ┌─┐  ┌─┐┬─┐┌┬┐┬┌┐┌┌─┐┬─┐┬┌─┐ 
+    ║╣ └─┐│  ├─┤├─┘├─┤   ││├┤   │  │ │  │ │├┬┘ ││││││├─┤├┬┘││ │ 
+   ╚═╝└─┘└─┘┴ ┴┴  ┴ ┴  ─┴┘└─┘  ┴─┘└─┘  └─┘┴└──┴┘┴┘└┘┴ ┴┴└─┴└─┘
+
+            </pre>
+            <div class="splash-dash">
+                <div class="splash-line"><span class="code-keyword">Nvim</span>Portfolio Interactive</div>
+                <div class="splash-keys">
+                    <div class="splash-cmd"><span class="code-string">:help</span><span class="code-comment">  Instrucciones</span></div>
+                    <div class="splash-cmd"><span class="code-string">:open &lt;file&gt;</span><span class="code-comment">  Abrir archivo</span></div>
+                    <div class="splash-cmd"><span class="code-string">:theme &lt;name&gt;</span><span class="code-comment">  Cambiar tema</span></div>
+                    <div class="splash-cmd"><span class="code-string">Ctrl+N</span><span class="code-comment">  Toggle sidebar</span></div>
+                </div>
+                <div class="splash-footer code-comment">Press any key or click to continue</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip flotante -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- Autocomplete fuera de contenedores con overflow -->
+    <div class="cmd-autocomplete" id="cmdAutocomplete"></div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
