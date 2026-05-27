@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portafolio profesional de Luis Mendoza - Desarrollador de Software y Técnico en Sistemas. Configurado como un entorno Neovim interactivo.">
-    <title>Daniel Mendoza | Neovim IDE Portfolio</title>
+    <title>Luis Mendoza | Neovim IDE Portfolio</title>
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/layout.css">
@@ -48,8 +48,12 @@
                 <aside class="ide-sidebar" id="ideSidebar">
                     <div class="sidebar-title">
                         <span>EXPLORER: LUIS.DEV</span>
-                        <!-- Icono refrescar o similar -->
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            <button class="sidebar-close-mobile" id="sidebarCloseMobile" aria-label="Cerrar explorador">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
                     </div>
                     
                     <div class="sidebar-tree" role="tree">
@@ -180,7 +184,7 @@ Disfruta explorando el portafolio.
                                 
                                 <div class="about-md">
                                     <p class="code-comment">-- TIP: Puedes controlar este portafolio con comandos. Haz clic abajo o presiona ':' y escribe :help</p>
-                                    <div style="font-family: 'Fira Code', monospace; font-size: 1.15rem; margin-bottom: 20px;">
+                                    <div class="typewriter-line" id="roleDisplay">
                                         <span class="code-keyword">local</span> current_role = <span class="code-string">"</span><span id="typewriterText" class="code-string"></span><span class="code-string">"</span>
                                     </div>
                                     <p>
@@ -423,7 +427,7 @@ Disfruta explorando el portafolio.
                     <div class="splash-cmd"><span class="code-string">:theme &lt;name&gt;</span><span class="code-comment">  Cambiar tema</span></div>
                     <div class="splash-cmd"><span class="code-string">Ctrl+N</span><span class="code-comment">  Toggle sidebar</span></div>
                 </div>
-                <div class="splash-footer code-comment">Press any key or click to continue</div>
+                <div class="splash-footer code-comment">Toca cualquier tecla o haz clic para continuar</div>
             </div>
         </div>
     </div>

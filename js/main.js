@@ -284,7 +284,13 @@ function updateGreetingComment() {
    ========================================================================== */
 function initTypewriter() {
     const typewriterEl = document.getElementById('typewriterText');
+    const container = document.getElementById('roleDisplay');
     if (!typewriterEl) return;
+
+    if (window.innerWidth <= 768 && container) {
+        initMobileRoleGame(container);
+        return;
+    }
 
     let wordIndex = 0, charIndex = 0, isDeleting = false;
     
@@ -310,6 +316,88 @@ function initTypewriter() {
         setTimeout(type, speed);
     }
     setTimeout(type, 1000);
+}
+
+function initMobileRoleGame(container) {
+    const roles = TYPEWRITER_WORDS;
+    let roleIndex = 0, progress = 0;
+    let unlocked = new Set();
+
+    container.innerHTML = `
+        <div class="hack-game" id="hackGame">
+            <span class="code-keyword">local</span> current_role = <span class="code-string">"</span>
+            <span class="hack-bar" id="hackBar">${'░'.repeat(10)}</span>
+            <span class="hack-pct" id="hackPct">0%</span>
+            <span class="code-string">"</span>
+        </div>
+    `;
+
+    const game = document.getElementById('hackGame');
+    const bar = document.getElementById('hackBar');
+    const pct = document.getElementById('hackPct');
+
+    function revealRole(role) {
+        const chars = role.split('');
+        bar.innerHTML = '';
+        bar.style.color = '';
+        chars.forEach((ch, i) => {
+            const span = document.createElement('span');
+            span.textContent = '_';
+            span.style.transition = 'color 0.1s ease';
+            span.dataset.char = ch;
+            span.dataset.revealed = 'false';
+            bar.appendChild(span);
+        });
+        pct.textContent = '✦';
+        let ri = 0;
+        const iv = setInterval(() => {
+            const spans = bar.querySelectorAll('span');
+            if (ri >= spans.length) {
+                clearInterval(iv);
+                setTimeout(() => {
+                    if (!unlocked.has(role)) {
+                        unlocked.add(role);
+                        if (unlocked.size >= roles.length) {
+                            pct.textContent = '🏆';
+                            bar.textContent = '¡Completado!';
+                            bar.style.color = 'var(--text-string)';
+                            return;
+                        }
+                    }
+                    resetBar();
+                }, 2000);
+                return;
+            }
+            spans[ri].textContent = spans[ri].dataset.char;
+            spans[ri].style.color = 'var(--text-string)';
+            pct.textContent = `${Math.round((ri + 1) / spans.length * 100)}%`;
+            ri++;
+        }, 60);
+    }
+
+    function resetBar() {
+        progress = 0;
+        bar.textContent = '░'.repeat(10);
+        bar.style.color = '';
+        pct.textContent = '0%';
+    }
+
+    function handleTap() {
+        if (progress >= 100) return;
+        progress = Math.min(100, progress + 10);
+        const filled = '█'.repeat(Math.floor(progress / 10));
+        const empty = '░'.repeat(10 - Math.floor(progress / 10));
+        bar.textContent = filled + empty;
+        bar.style.color = 'var(--text-string)';
+        pct.textContent = progress + '%';
+        if (progress >= 100) {
+            setTimeout(() => revealRole(roles[roleIndex]), 300);
+            roleIndex = (roleIndex + 1) % roles.length;
+        }
+    }
+
+    game.addEventListener('click', handleTap);
+    game.addEventListener('touchstart', (e) => { e.preventDefault(); handleTap(); }, { passive: false });
 }
 
 /* ==========================================================================
@@ -581,7 +669,7 @@ function initCommandLine() {
         return selectedValue;
     }
 
-    autocomplete.addEventListener('mousedown', (e) => {
+    function handleAutocompletePick(e) {
         const item = e.target.closest('.ac-item');
         if (!item) return;
         e.preventDefault();
@@ -611,7 +699,10 @@ function initCommandLine() {
                 cmdInput.blur();
             }
         }
-    });
+    }
+
+    autocomplete.addEventListener('mousedown', handleAutocompletePick);
+    autocomplete.addEventListener('touchstart', handleAutocompletePick, { passive: false });
 
     autocomplete.addEventListener('mouseover', (e) => {
         const item = e.target.closest('.ac-item');
@@ -807,25 +898,47 @@ function initTooltips() {
 function initMobileMenu() {
     const toggleBtn = document.getElementById('mobileMenuToggle');
     const sidebar = document.getElementById('ideSidebar');
+    const closeBtn = document.getElementById('sidebarCloseMobile');
     if (!toggleBtn || !sidebar) return;
+
+    function closeSidebar() {
+        if (sidebar.classList.contains('active')) sidebar.classList.remove('active');
+    }
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('active');
+    }
 
     toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        sidebar.classList.toggle('active');
+        toggleSidebar();
     });
 
-    const workspace = document.querySelector('.ide-workspace');
-    if (workspace) {
-        workspace.addEventListener('click', () => {
-            if (sidebar.classList.contains('active')) sidebar.classList.remove('active');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeSidebar();
         });
     }
 
+    const workspace = document.querySelector('.ide-workspace');
+    if (workspace) {
+        workspace.addEventListener('click', closeSidebar);
+    }
+
     document.querySelectorAll('.tree-file').forEach(f => {
-        f.addEventListener('click', () => {
-            if (sidebar.classList.contains('active')) sidebar.classList.remove('active');
-        });
+        f.addEventListener('click', closeSidebar);
     });
+
+    // Swipe to close sidebar on mobile
+    let touchStartX = 0;
+    sidebar.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    sidebar.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        if (dx < -60) closeSidebar();
+    }, { passive: true });
 }
 
 // Atajos de teclado globales

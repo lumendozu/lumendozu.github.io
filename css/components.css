@@ -39,6 +39,48 @@
 .code-number { color: var(--text-number); }
 .code-comment { color: var(--text-comment); font-style: italic; }
 
+/* Typewriter line - prevent layout shift */
+.typewriter-line {
+    font-family: 'Fira Code', monospace;
+    font-size: 1.15rem;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    min-height: 1.8em;
+}
+
+/* Hack game (mobile typewriter replacement) */
+.hack-game {
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    display: inline;
+}
+
+.hack-bar {
+    color: var(--text-muted);
+    font-family: 'Fira Code', monospace;
+    display: inline;
+    min-width: 10ch;
+}
+
+.hack-pct {
+    color: var(--accent);
+    font-family: 'Fira Code', monospace;
+    font-weight: 700;
+    display: inline;
+    margin-left: 2px;
+}
+
+/* Help pre block - responsive */
+.help-pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-family: 'Fira Code', 'JetBrains Mono', monospace;
+}
+
 /* About section */
 .about-md p {
     margin-bottom: 16px;
